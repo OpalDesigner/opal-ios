@@ -9,4 +9,5 @@ import SwiftUI
 
 protocol Theme {
     var colors: OpalDesignTokensColors { get }
+    var fonts: OpalDesignTokensFonts { get }
 }

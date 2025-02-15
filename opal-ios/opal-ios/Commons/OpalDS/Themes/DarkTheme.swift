@@ -8,7 +8,24 @@
 import SwiftUICore
 
 struct DarkTheme: Theme {
+    let fonts: OpalDesignTokensFonts = OpalDarkFonts()
+    
     let colors: OpalDesignTokensColors = OpalDarkColors()
+}
+
+struct OpalDarkFonts: OpalDesignTokensFonts {
+    let proximaNova: OpalProximaNovaFont = OpalDarkProximaNovaFonts()
+    let inter: OpalInterFont = OpalDarkInterFonts()
+}
+
+struct OpalDarkProximaNovaFonts: OpalProximaNovaFont {
+    let regular: String = "ProximaNova-Regular"
+    
+    var bold: String = "ProximaNova-Bold"
+}
+
+struct OpalDarkInterFonts: OpalInterFont {
+    let regular: String = "Inter24pt-Regular"
 }
 
 struct OpalDarkColors: OpalDesignTokensColors {
