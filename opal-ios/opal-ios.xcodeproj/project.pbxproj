@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A4B990C02D6128F100D848AB /* AWSClientRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = A4B990BF2D6128F100D848AB /* AWSClientRuntime */; };
+		A4B990C22D6128F100D848AB /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = A4B990C12D6128F100D848AB /* AWSS3 */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A4B990A22D61275200D848AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4B990C22D6128F100D848AB /* AWSS3 in Frameworks */,
+				A4B990C02D6128F100D848AB /* AWSClientRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = "opal-ios";
 			packageProductDependencies = (
+				A4B990BF2D6128F100D848AB /* AWSClientRuntime */,
+				A4B990C12D6128F100D848AB /* AWSS3 */,
 			);
 			productName = "opal-ios";
 			productReference = A4B990912D61275000D848AB /* opal-ios.app */;
@@ -195,6 +204,9 @@
 			);
 			mainGroup = A4B990882D61275000D848AB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A4B990BE2D6128F100D848AB /* XCRemoteSwiftPackageReference "aws-sdk-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A4B990922D61275000D848AB /* Products */;
 			projectDirPath = "";
@@ -558,6 +570,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A4B990BE2D6128F100D848AB /* XCRemoteSwiftPackageReference "aws-sdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/awslabs/aws-sdk-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.19;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A4B990BF2D6128F100D848AB /* AWSClientRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A4B990BE2D6128F100D848AB /* XCRemoteSwiftPackageReference "aws-sdk-swift" */;
+			productName = AWSClientRuntime;
+		};
+		A4B990C12D6128F100D848AB /* AWSS3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A4B990BE2D6128F100D848AB /* XCRemoteSwiftPackageReference "aws-sdk-swift" */;
+			productName = AWSS3;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A4B990892D61275000D848AB /* Project object */;
 }
