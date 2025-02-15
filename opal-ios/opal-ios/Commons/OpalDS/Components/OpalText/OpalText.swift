@@ -11,13 +11,13 @@ struct OpalText: View {
     let text: String
     let style: OpalTextStyle
     var alignment: TextAlignment = .leading
-    var currentTheme: Theme { ThemeManager.shared.currentTheme }
+    var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     var body: some View {
         Text(text)
-            .font(style.font(for: currentTheme))
+            .font(style.font(for: context))
             .multilineTextAlignment(alignment)
-            .foregroundStyle(style.color(for: currentTheme))
+            .foregroundStyle(style.color(for: context))
     }
 }
 

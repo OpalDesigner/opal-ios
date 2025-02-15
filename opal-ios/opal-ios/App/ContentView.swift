@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    var currentTheme: Theme { ThemeManager.shared.currentTheme }
+    var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     var body: some View {
         VStack {
@@ -18,9 +18,6 @@ struct ContentView: View {
             OpalText(text: "Find the best models for you", style: .headingOne)
         }
         .padding()
-        .onAppear {
-            print("CYNARA \(currentTheme.colors.font.one)")
-        }
     }
 }
 

@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct opal_iosApp: App {
-    @StateObject private var themeManager = ThemeManager.shared
+    @StateObject private var opalContext = OpalDesignContextSingleton.shared
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(themeManager)
+                .environmentObject(opalContext)
         }
     }
 }
