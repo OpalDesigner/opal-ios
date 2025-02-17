@@ -6,18 +6,20 @@ struct LoginView: View {
     var body: some View {
         VStack {
             Spacer()
-            TextField("Username", text: $viewModel.username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-            SecureField("Password", text: $viewModel.password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-            Button("Login") {
-                viewModel.login()
-            }
+            OpalText(text: "Opal iOS", style: .headingOne)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            OpalTextField(placeholder: "Username", text: $viewModel.username, style: .primary, isSecure: false)
+            OpalTextField(placeholder: "Password", text: $viewModel.password, style: .primary, isSecure: true)
+                .padding(.vertical)
+            OpalButton(title: "Log In", style: .primary, action: viewModel.login)
             
             Spacer()
-            Button("Don't have an account? Sign up.", action: viewModel.showSignUp)
+            OpalButton(title: "Sign Up", style: .secondary, action: viewModel.showSignUp)
         }.padding()
     }
 }
+
+//#Preview {
+//    LoginView(viewModel: LoginViewModel(sessionManager: SessionManager()))
+//}
+

@@ -9,6 +9,7 @@ struct HomeView: View {
         VStack {
             Spacer()
             OpalText(text: "Find the best models for you", style: .headingOne)
+                .frame(maxWidth: .infinity)
             
             if let image = self.image {
                 Image(uiImage: image)
@@ -24,7 +25,8 @@ struct HomeView: View {
                 uploadImage()
             })
             Spacer()
-            Button("Sign Out", action: viewModel.signOut)
+            OpalButton(title: "Sign Out", style: .secondary, action: viewModel.signOut)
+                .padding(.horizontal)
         }
     }
     
@@ -72,4 +74,8 @@ struct HomeView: View {
             }
         }
     }
+}
+
+#Preview {
+    HomeView(viewModel: HomeViewModel(user: AuthUserEntity(id: "", username: ""), sessionManager: SessionManager()))
 }
