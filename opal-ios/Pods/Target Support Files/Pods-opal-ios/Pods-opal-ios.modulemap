@@ -1,0 +1,6 @@
+framework module Pods_opal_ios {
+  umbrella header "Pods-opal-ios-umbrella.h"
+
+  export *
+  module * { export * }
+}
