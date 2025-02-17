@@ -22,6 +22,7 @@ protocol OpalBrandColors {
 protocol OpalFontColors {
     var one: Color { get }
     var two: Color { get }
+    var oneInverse: Color { get }
 }
 
 protocol OpalPrimaryColors {
@@ -37,4 +38,5 @@ protocol OpalBackgroundColors {
     var secondary: Color { get }
     var selected: Color { get }
     var transparency: Color { get }
+    var inverse: Color { get }
 }

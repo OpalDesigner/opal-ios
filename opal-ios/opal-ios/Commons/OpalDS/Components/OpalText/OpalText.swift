@@ -5,7 +5,7 @@
 //  Created by Cynara Costa on 15/02/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 struct OpalText: View {
     let text: String

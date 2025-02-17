@@ -7,20 +7,32 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
-    
+    @EnvironmentObject var sessionManager: SessionManager
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            OpalText(text: "Find the best models for you", style: .headingOne)
+        Group {
+            switch sessionManager.authState {
+            case .login:
+                LoginView(viewModel: LoginViewModel(sessionManager: sessionManager))
+            case .signUp:
+                SignUpView(viewModel: SignUpViewModel(sessionManager: sessionManager))
+            case .confirmCode(let username):
+                ConfirmCodeView(viewModel: ConfirmCodeViewModel(username: username, sessionManager: sessionManager))
+            case .session(let user):
+                HomeView(viewModel: HomeViewModel(user: user, sessionManager: sessionManager))
+            }
         }
-        .padding()
+        .onAppear {
+            sessionManager.getCurrentAuthUser()
+        }
     }
+    
+    
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
