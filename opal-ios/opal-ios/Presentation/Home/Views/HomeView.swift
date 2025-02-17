@@ -1,11 +1,9 @@
 import SwiftUI
 import Amplify
 
-struct SessionView: View {
-    @EnvironmentObject var sessionManager: SessionManager
+struct HomeView: View {
     @State var image: UIImage?
-    
-    let user: AuthUser
+    @ObservedObject var viewModel: HomeViewModel
     
     var body: some View {
         VStack {
@@ -20,20 +18,18 @@ struct SessionView: View {
             }
             
             Button("Download", action: {
-                listFiles()
                 downloadImage(imageName: "brain.png")
             })
             Button("Upload", action: {
                 uploadImage()
             })
             Spacer()
-            Button("Sign Out", action: sessionManager.signOut)
+            Button("Sign Out", action: viewModel.signOut)
         }
     }
     
     func listFiles() {
         let options = StorageListRequest.Options(accessLevel: .guest)
-        print("entrou")
         Amplify.Storage.list(options: options) { result in
             print(result)
             switch result {
