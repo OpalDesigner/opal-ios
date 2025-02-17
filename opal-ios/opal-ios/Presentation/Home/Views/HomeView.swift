@@ -2,7 +2,10 @@ import SwiftUI
 import Amplify
 
 struct HomeView: View {
+    @State private var imageName: String = ""
     @State var image: UIImage?
+    @State private var errorMessage: String?
+    
     @ObservedObject var viewModel: HomeViewModel
     
     var body: some View {
@@ -11,50 +14,65 @@ struct HomeView: View {
             OpalText(text: "Find the best models for you", style: .headingOne)
                 .frame(maxWidth: .infinity)
             
+            OpalTextField(placeholder: "Enter image name", text: $imageName, style: .primary, isSecure: false)
+                            .padding(.horizontal)
+            
+            OpalButton(title: "Download", style: .primary, action: {
+                downloadImage(imageName: imageName)
+            })
+                .padding()
+            
             if let image = self.image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 150, height: 150)
+                    .padding()
             }
             
-            Button("Download", action: {
-                downloadImage(imageName: "brain.png")
-            })
-            Button("Upload", action: {
-                uploadImage()
-            })
+            if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .padding()
+                        }
+
             Spacer()
             OpalButton(title: "Sign Out", style: .secondary, action: viewModel.signOut)
                 .padding(.horizontal)
         }
     }
     
-    func listFiles() {
-        let options = StorageListRequest.Options(accessLevel: .guest)
-        Amplify.Storage.list(options: options) { result in
-            print(result)
-            switch result {
-            case .success(let listResult):
-                for item in listResult.items {
-                    print("Arquivo encontrado: \(item.key)")
-                }
-            case .failure(let error):
-                print("Erro ao listar arquivos: \(error)")
-            }
-        }
+    func ensureImageExtension(_ name: String, format: String) -> String {
+        let lowercaseName = name.lowercased()
+        return lowercaseName.hasSuffix(".\(format)") ? lowercaseName : "\(lowercaseName).\(format)"
     }
     
     func downloadImage(imageName: String) {
-        Amplify.Storage.downloadData(key: imageName) { result in
+        errorMessage = nil
+        let pngName = ensureImageExtension(imageName, format: "png")
+        let jpgName = ensureImageExtension(imageName, format: "jpg")
+        
+        Amplify.Storage.downloadData(key: pngName) { result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
                     self.image = UIImage(data: data)
+                    self.errorMessage = nil
                 }
-                
-            case .failure(let error):
-                print("Error downloading image \(imageName):", error)
+            case .failure:
+                Amplify.Storage.downloadData(key: jpgName) { jpgResult in
+                    switch jpgResult {
+                    case .success(let data):
+                        DispatchQueue.main.async {
+                            self.image = UIImage(data: data)
+                            self.errorMessage = nil
+                        }
+                    case .failure:
+                        DispatchQueue.main.async {
+                            self.errorMessage = "Image '\(imageName)' not found in PNG or JPG format"
+                        }
+                    }
+                }
             }
         }
     }
