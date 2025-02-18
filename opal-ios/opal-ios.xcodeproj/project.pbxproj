@@ -32,7 +32,7 @@
 /* Begin PBXFileReference section */
 		6F1993CBE7F283C84976A4E7 /* Pods_opal_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_opal_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		743400EE51B9B9996F9C78A2 /* Pods-opal-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-opal-ios.debug.xcconfig"; path = "Target Support Files/Pods-opal-ios/Pods-opal-ios.debug.xcconfig"; sourceTree = "<group>"; };
-		A4B990912D61275000D848AB /* opal-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "opal-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4B990912D61275000D848AB /* Opal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Opal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B990A12D61275200D848AB /* opal-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "opal-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B990AB2D61275200D848AB /* opal-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "opal-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA36706DED63D54CF787D5DF /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 		A4B990922D61275000D848AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A4B990912D61275000D848AB /* opal-ios.app */,
+				A4B990912D61275000D848AB /* Opal.app */,
 				A4B990A12D61275200D848AB /* opal-iosTests.xctest */,
 				A4B990AB2D61275200D848AB /* opal-iosUITests.xctest */,
 			);
@@ -168,7 +168,7 @@
 			);
 			name = "opal-ios";
 			productName = "opal-ios";
-			productReference = A4B990912D61275000D848AB /* opal-ios.app */;
+			productReference = A4B990912D61275000D848AB /* Opal.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A4B990A02D61275200D848AB /* opal-iosTests */ = {
@@ -511,7 +511,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.opal.iOS.app.opal-ios";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Opal;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -543,7 +543,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.opal.iOS.app.opal-ios";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Opal;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
