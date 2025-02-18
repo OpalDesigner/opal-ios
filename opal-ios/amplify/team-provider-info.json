@@ -1,0 +1,50 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-opaliosamplify-dev-27428-authRole",
+      "UnauthRoleArn": "arn:aws:iam::600627327409:role/amplify-opaliosamplify-dev-27428-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::600627327409:role/amplify-opaliosamplify-dev-27428-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-opaliosamplify-dev-27428-deployment",
+      "UnauthRoleName": "amplify-opaliosamplify-dev-27428-unauthRole",
+      "StackName": "amplify-opaliosamplify-dev-27428",
+      "StackId": "arn:aws:cloudformation:us-east-1:600627327409:stack/amplify-opaliosamplify-dev-27428/9c4adbe0-ed46-11ef-8e97-1236c4850f23",
+      "AmplifyAppId": "d22r5v2yidcde6"
+    },
+    "categories": {
+      "auth": {
+        "opaliosamplify77dea40c": {}
+      },
+      "storage": {
+        "opaliosamplifybb40ba07": {
+          "bucketName": "opal-designer",
+          "region": "us-east-1"
+        }
+      }
+    }
+  },
+  "opalios": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-opaliosamplify-opalios-3b0e2-authRole",
+      "UnauthRoleArn": "arn:aws:iam::600627327409:role/amplify-opaliosamplify-opalios-3b0e2-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::600627327409:role/amplify-opaliosamplify-opalios-3b0e2-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-opaliosamplify-opalios-3b0e2-deployment",
+      "UnauthRoleName": "amplify-opaliosamplify-opalios-3b0e2-unauthRole",
+      "StackName": "amplify-opaliosamplify-opalios-3b0e2",
+      "StackId": "arn:aws:cloudformation:us-east-1:600627327409:stack/amplify-opaliosamplify-opalios-3b0e2/9ee5b590-ed47-11ef-af01-122f989a8957",
+      "AmplifyAppId": "d22r5v2yidcde6"
+    },
+    "categories": {
+      "auth": {
+        "opaliosamplify77dea40c": {}
+      },
+      "storage": {
+        "opaliosamplifybb40ba07": {
+          "bucketName": "opal-designer",
+          "region": "us-east-1"
+        }
+      }
+    }
+  }
+}
