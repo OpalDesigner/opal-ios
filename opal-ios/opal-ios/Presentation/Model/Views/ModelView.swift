@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ARModelScreen: View {
+struct ModelView: View {
     let model: ModelItemEntity
     
     @StateObject private var viewModel = ARModelViewModel(

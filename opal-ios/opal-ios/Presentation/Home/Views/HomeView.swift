@@ -10,7 +10,7 @@ struct HomeView: View {
     ]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading) {
                 OpalText(text: "Find the best models for you", style: .headingOne)
                     .frame(maxWidth: .infinity)
@@ -24,12 +24,10 @@ struct HomeView: View {
                 case .success(let models):
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 16) {
-                            ForEach(models, id: \ .model.name) { modelViewModel in
-                                NavigationLink(destination: {
-                                    ARModelScreen(model: modelViewModel.model)
-                                }) {
+                            ForEach(models, id: \.model.name) { modelViewModel in
+                                NavigationLink(destination: ModelView(model: modelViewModel.model)) {
                                     ModelCardView(viewModel: modelViewModel)
-                                }.tint(context.colors.font.one)
+                                }
                             }
                         }
                         .padding()
@@ -54,8 +52,9 @@ struct HomeView: View {
                 OpalButton(title: "Sign Out", style: .secondary, action: viewModel.signOut)
                     .padding(.horizontal)
             }
-            .navigationBarHidden(true)
+            .navigationBarHidden(false)
         }
+        .tint(context.colors.font.one)
         .onAppear {
             viewModel.loadAllObjects()
         }
