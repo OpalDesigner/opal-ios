@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
+    var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
 
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -18,7 +19,14 @@ struct HomeView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.models, id: \.model.name) { modelViewModel in
-                            ModelCardView(viewModel: modelViewModel)
+                            NavigationLink(destination: {
+                                ARModelScreen(model: modelViewModel.model)
+                                
+                            }) {
+                                ModelCardView(
+                                    viewModel: modelViewModel
+                                )
+                            }.tint(context.colors.font.one)
                         }
                     }
                     .padding()
