@@ -36,12 +36,6 @@ struct ARModelScreen: View {
                 viewModel.hasError = true
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text(model.name.capitalized)
-                    .font(.headline)
-                    .foregroundStyle(.fontOne)
-            }
-        }
+        .navigationBarTitle(model.name.capitalized, displayMode: .inline)
     }
 }

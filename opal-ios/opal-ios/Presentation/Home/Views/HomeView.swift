@@ -3,7 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
-
+    
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
@@ -15,21 +15,39 @@ struct HomeView: View {
                 OpalText(text: "Find the best models for you", style: .headingOne)
                     .frame(maxWidth: .infinity)
                     .safeAreaPadding(.vertical)
-
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.models, id: \.model.name) { modelViewModel in
-                            NavigationLink(destination: {
-                                ARModelScreen(model: modelViewModel.model)
-                                
-                            }) {
-                                ModelCardView(
-                                    viewModel: modelViewModel
-                                )
-                            }.tint(context.colors.font.one)
+                
+                switch viewModel.state {
+                case .loading:
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                
+                case .success(let models):
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            ForEach(models, id: \ .model.name) { modelViewModel in
+                                NavigationLink(destination: {
+                                    ARModelScreen(model: modelViewModel.model)
+                                }) {
+                                    ModelCardView(viewModel: modelViewModel)
+                                }.tint(context.colors.font.one)
+                            }
                         }
+                        .padding()
                     }
-                    .padding()
+                    
+                case .error(let message):
+                    VStack {
+                        Text(message)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                        
+                        Button("Retry") {
+                            viewModel.loadAllObjects()
+                        }
+                        .padding()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
                 
                 Spacer()

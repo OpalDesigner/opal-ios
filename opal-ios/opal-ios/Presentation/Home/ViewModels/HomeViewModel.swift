@@ -1,8 +1,17 @@
 import SwiftUI
 import Combine
 
+import SwiftUI
+import Combine
+
+enum HomeViewState {
+    case loading
+    case success([ModelCardViewModel])
+    case error(String)
+}
+
 final class HomeViewModel: ObservableObject {
-    @Published var models: [ModelCardViewModel] = []
+    @Published var state: HomeViewState = .loading
     
     private let user: AuthUserEntity
     private let sessionManager: SessionManager
@@ -29,22 +38,25 @@ final class HomeViewModel: ObservableObject {
     }
     
     func loadAllObjects() {
+        state = .loading
+        
         getAllModelsUseCase.execute()
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    print("Erro ao carregar modelos: \(error)")
+                    self.state = .error("Error fetching models: \(error.localizedDescription)")
                 case .finished:
                     break
                 }
             } receiveValue: { assets in
-                self.models = assets.map { model in
+                let models = assets.map { model in
                     ModelCardViewModel(
                         model: model,
                         downloadAssetDataUseCase: self.downloadAssetDataUseCase
                     )
                 }
+                self.state = .success(models)
             }
             .store(in: &cancellables)
     }
