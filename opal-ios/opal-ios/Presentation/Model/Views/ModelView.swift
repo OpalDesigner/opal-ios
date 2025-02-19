@@ -24,7 +24,7 @@ struct ModelView: View {
                 ErrorModelView()
             } else if let fileURL = viewModel.modelFileURL {
                 SceneKitModelView(modelFileURL: fileURL)
-                    .edgesIgnoringSafeArea(.all)
+                    .edgesIgnoringSafeArea(.bottom)
             } else {
                 EmptyView()
             }
