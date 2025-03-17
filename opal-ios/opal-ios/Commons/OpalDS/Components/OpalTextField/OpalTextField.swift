@@ -11,6 +11,8 @@ struct OpalTextField: View {
     
     let cornerRadius = 8.0
     let lineWidth = 2.0
+    let boxPadding = 12.0
+    let fontSize = 16.0
     
     init(
             placeholder: String,
@@ -37,14 +39,14 @@ struct OpalTextField: View {
                     TextField(placeholder, text: $text)
                 }
             }
-            .font(.custom(context.fonts.proximaNova.regular, size: 16))
+            .font(.custom(context.fonts.proximaNova.regular, size: fontSize))
             .foregroundColor(style.fontColor(for: context))
             
             if let icon = trailingIcon {
                 OpalIcon(iconName: icon, color: trailingIconColor, size: OpalIconSize.small)
             }
         }
-        .padding()
+        .padding(.all, boxPadding)
         .background(style.bgColor(for: context))
         .overlay(
             RoundedRectangle(cornerRadius: cornerRadius)
