@@ -12,6 +12,7 @@ enum HomeViewState {
 
 final class HomeViewModel: ObservableObject {
     @Published var state: HomeViewState = .loading
+    @Published var search: String = ""
     
     private let user: AuthUserEntity
     private let sessionManager: SessionManager

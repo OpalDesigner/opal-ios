@@ -16,6 +16,8 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity)
                     .safeAreaPadding(.vertical)
                 
+                OpalTextField(placeholder: "Search", text: $viewModel.search, style: .tertiary, isSecure: false, trailingIcon: context.icons.search, trailingIconColor: context.colors.font.two).padding()
+                
                 switch viewModel.state {
                 case .loading:
                     ProgressView()

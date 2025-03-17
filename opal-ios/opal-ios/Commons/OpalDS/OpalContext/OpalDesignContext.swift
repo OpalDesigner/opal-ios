@@ -8,11 +8,13 @@
 protocol OpalDesignContext {
     var colors: OpalDesignTokensColors { get }
     var fonts: OpalDesignTokensFonts { get }
+    var icons: OpalDesignTokensIcons { get }
 }
 
 struct OpalDesignContextBase: OpalDesignContext {
     let fonts: OpalDesignTokensFonts = OpalDesignFonts()
     let colors: OpalDesignTokensColors = OpalDesignColors()
+    let icons: OpalDesignTokensIcons = OpalDesignIcons()
 }
 
 

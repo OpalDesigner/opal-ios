@@ -6,10 +6,27 @@ struct OpalTextField: View {
     let style: OpalTextFieldStyle
     let isSecure: Bool
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
-    let trailingIcon: Image?
+    let trailingIcon: String?
+    let trailingIconColor: Color?
     
     let cornerRadius = 8.0
     let lineWidth = 2.0
+    
+    init(
+            placeholder: String,
+            text: Binding<String>,
+            style: OpalTextFieldStyle,
+            isSecure: Bool,
+            trailingIcon: String? = nil,
+            trailingIconColor: Color? = nil
+        ) {
+            self.placeholder = placeholder
+            self._text = text
+            self.style = style
+            self.isSecure = isSecure
+            self.trailingIcon = trailingIcon
+            self.trailingIconColor = trailingIconColor
+        }
     
     var body: some View {
         HStack {
@@ -24,11 +41,7 @@ struct OpalTextField: View {
             .foregroundColor(style.fontColor(for: context))
             
             if let icon = trailingIcon {
-                icon
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(style.fontColor(for: context))
+                OpalIcon(iconName: icon, color: trailingIconColor, size: OpalIconSize.small)
             }
         }
         .padding()
