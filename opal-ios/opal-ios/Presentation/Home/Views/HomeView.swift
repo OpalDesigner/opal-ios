@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
+    @State private var currentStyle: OpalFilterStyle = .unselected
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -17,6 +18,11 @@ struct HomeView: View {
                     .safeAreaPadding(.vertical)
                 
                 OpalTextField(placeholder: "Search", text: $viewModel.search, style: .tertiary, isSecure: false, trailingIcon: context.icons.search, trailingIconColor: context.colors.font.two).padding()
+                
+                OpalFilter(text: "Anatomy", style: currentStyle) {
+                    currentStyle = (currentStyle == .selected) ? .unselected : .selected
+                    print("CYNARA \(currentStyle)")
+                }.padding(.horizontal)
                 
                 switch viewModel.state {
                 case .loading:

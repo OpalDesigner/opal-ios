@@ -11,7 +11,7 @@ enum OpalFilterStyle {
     case selected
     case unselected
     
-    func fontColor(for context: OpalDesignContext) -> Color {
+    func selectedFontColor(for context: OpalDesignContext) -> Color {
         switch self {
         case .selected:
             return context.colors.font.oneInverse
@@ -20,12 +20,39 @@ enum OpalFilterStyle {
         }
     }
     
-    func bgColor(for context: OpalDesignContext) -> Color {
+    func unselectedFontColor(for context: OpalDesignContext) -> Color {
+        switch self {
+        case .selected:
+            return context.colors.font.oneInverse
+        case .unselected:
+            return context.colors.font.one
+        }
+    }
+    
+    func selectedBgColor(for context: OpalDesignContext) -> Color {
         switch self {
         case .selected:
             return context.colors.background.inverse
         case .unselected:
             return context.colors.background.main
+        }
+    }
+    
+    func unselectedBgColor(for context: OpalDesignContext) -> Color {
+        switch self {
+        case .selected:
+            return context.colors.background.inverse
+        case .unselected:
+            return context.colors.background.main
+        }
+    }
+    
+    func borderColor(for context: OpalDesignContext) -> Color {
+        switch self {
+        case .selected:
+            return Color.clear
+        case .unselected:
+            return context.colors.background.inverse
         }
     }
 }
