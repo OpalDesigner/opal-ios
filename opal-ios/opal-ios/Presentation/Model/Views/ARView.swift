@@ -34,16 +34,16 @@ struct ARModelView: UIViewRepresentable {
 //            }
 //        }
         
-        Task {
-            do {
-                let entity = try? Entity.load(contentsOf: modelFileURL)
-                let anchor = AnchorEntity(plane: .any)
-                anchor.addChild(entity!)
-                arView.scene.addAnchor(anchor)
-            } catch {
-                print("Erro ao carregar ModelEntity: \(error)")
-            }
-        }
+//        Task {
+//            do {
+//                let entity = try? Entity.load(contentsOf: modelFileURL)
+//                let anchor = AnchorEntity(plane: .any)
+//                anchor.addChild(entity!)
+//                arView.scene.addAnchor(anchor)
+//            } catch {
+//                print("Erro ao carregar ModelEntity: \(error)")
+//            }
+//        }
         
         return arView
     }
