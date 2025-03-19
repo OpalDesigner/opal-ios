@@ -25,19 +25,28 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, horizontalPadding)
                 
-                OpalTextField(placeholder: "Search", text: $viewModel.search, style: .tertiary, isSecure: false, trailingIcon: context.icons.search, trailingIconColor: context.colors.font.two)
-                    .padding(
-                        EdgeInsets(
-                            top: 0,
-                            leading: horizontalPadding,
-                            bottom: 8,
-                            trailing: horizontalPadding)
-                    )
-                
-                FilterGridView(
-                    viewModel: filterViewModel
+                OpalTextField(
+                    placeholder: "Search",
+                    text: $viewModel.search,
+                    style: .tertiary,
+                    isSecure: false,
+                    trailingIcon: context.icons.search,
+                    trailingIconColor: context.colors.font.two
                 )
-                                    .padding(.horizontal, horizontalPadding)
+                .padding(EdgeInsets(top: 0, leading: horizontalPadding, bottom: 8, trailing: horizontalPadding))
+                
+                FilterGridView(viewModel: filterViewModel)
+                    .padding(.horizontal, horizontalPadding)
+
+                    .onChange(of: filterViewModel.selectedFilterIndex) { newIndex in
+                        if let index = newIndex, index > 0 {
+                            let category = filterViewModel.filters[index].category
+                            viewModel.selectedCategory = category
+                        } else {
+                            viewModel.selectedCategory = nil
+                        }
+                        viewModel.applyFilter()
+                    }
                 
                 switch viewModel.state {
                 case .loading:

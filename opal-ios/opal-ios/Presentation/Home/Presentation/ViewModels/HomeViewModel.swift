@@ -15,6 +15,10 @@ final class HomeViewModel: ObservableObject {
     @Published var search: String = ""
     @Published var filters: [OpalFilterEntity] = []
     
+
+    @Published var selectedCategory: String? = nil
+    private var allModels: [ModelCardViewModel] = []
+    
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     private let user: AuthUserEntity
@@ -65,22 +69,35 @@ final class HomeViewModel: ObservableObject {
                         downloadAssetDataUseCase: self.downloadAssetDataUseCase
                     )
                 }
-                self.state = .success(models)
+
+                self.allModels = models
+                self.applyFilter()
             }
             .store(in: &cancellables)
+    }
+    
+
+    func applyFilter() {
+        let filteredModels = selectedCategory == nil
+            ? allModels
+        : allModels.filter { $0.model.category?.lowercased() == selectedCategory?.lowercased() }
+        
+        self.state = .success(filteredModels)
     }
     
     func loadFilters() {
         let defaultFilter = OpalFilterEntity(
             text: "Filters",
+            category: "filters",
             style: .unselected,
             icon: OpalIcon(iconName: context.icons.arrowDown, size: OpalIconSize.extraSmall)
         )
         
         let categories = [
-            OpalFilterEntity(text: "Anatomy", style: .unselected),
-            OpalFilterEntity(text: "Space", style: .unselected),
-            OpalFilterEntity(text: "Interior Design", style: .unselected)
+            OpalFilterEntity(text: "Anatomy", category: "anatomy", style: .unselected),
+            OpalFilterEntity(text: "Space", category: "space", style: .unselected),
+            OpalFilterEntity(text: "Interior Design", category: "interior_design", style: .unselected),
+            OpalFilterEntity(text: "Other", category: "other", style: .unselected)
         ]
         
         filters = [defaultFilter] + categories

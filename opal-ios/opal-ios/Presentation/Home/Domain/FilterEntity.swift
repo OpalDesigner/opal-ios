@@ -10,6 +10,7 @@ import SwiftUI
 struct OpalFilterEntity: Identifiable {
     let id = UUID()
     let text: String
+    let category: String
     var style: OpalFilterStyle
     var icon: OpalIcon?
 }
