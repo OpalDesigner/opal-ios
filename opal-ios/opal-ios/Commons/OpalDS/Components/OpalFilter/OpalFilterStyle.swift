@@ -25,7 +25,7 @@ enum OpalFilterStyle {
         case .selected:
             return context.colors.font.oneInverse
         case .unselected:
-            return context.colors.font.one
+            return context.colors.font.two.opacity(0.5)
         }
     }
     
@@ -43,7 +43,7 @@ enum OpalFilterStyle {
         case .selected:
             return context.colors.background.inverse
         case .unselected:
-            return context.colors.background.main
+            return context.colors.background.secondary
         }
     }
     

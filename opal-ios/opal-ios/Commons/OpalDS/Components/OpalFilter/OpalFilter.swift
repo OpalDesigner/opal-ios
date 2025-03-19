@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct OpalFilter: View {
-    let text: String
-    let style: OpalFilterStyle
-    let icon: OpalIcon?
+    var text: String
+    var style: OpalFilterStyle
+    var icon: OpalIcon?
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
-    let onTap: () -> Void
+    var onTap: () -> Void
     
     init(text: String,
          style: OpalFilterStyle,
@@ -55,10 +55,6 @@ struct OpalFilter: View {
                 style == .selected
                 ? style.selectedBgColor(for: context)
                 : style.unselectedBgColor(for: context)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(style.borderColor(for: context), lineWidth: lineWidth)
             )
             .cornerRadius(cornerRadius)
         }

@@ -2,8 +2,22 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
+    @StateObject var filterViewModel = FilterViewModel(filters: [
+        OpalFilterEntity(
+            text: "Filters",
+            style: .unselected,
+            icon: OpalIcon(
+                iconName: "chevron-down",
+                size: OpalIconSize.extraSmall)
+        ),
+            OpalFilterEntity(text: "Anatomy", style: .unselected),
+            OpalFilterEntity(text: "Space", style: .unselected),
+            OpalFilterEntity(text: "Interior Design", style: .unselected)
+        ])
+    
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
-    @State private var currentStyle: OpalFilterStyle = .unselected
+    
+    let horizontalPadding = 24.0
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -14,15 +28,23 @@ struct HomeView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 OpalText(text: "Find the best models for you", style: .headingOne)
-                    .frame(maxWidth: .infinity)
-                    .safeAreaPadding(.vertical)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, horizontalPadding)
                 
-                OpalTextField(placeholder: "Search", text: $viewModel.search, style: .tertiary, isSecure: false, trailingIcon: context.icons.search, trailingIconColor: context.colors.font.two).padding()
+                OpalTextField(placeholder: "Search", text: $viewModel.search, style: .tertiary, isSecure: false, trailingIcon: context.icons.search, trailingIconColor: context.colors.font.two)
+                    .padding(
+                        EdgeInsets(
+                            top: 0,
+                            leading: horizontalPadding,
+                            bottom: 8,
+                            trailing: horizontalPadding)
+                    )
                 
-                OpalFilter(text: "Anatomy", style: currentStyle) {
-                    currentStyle = (currentStyle == .selected) ? .unselected : .selected
-                    print("CYNARA \(currentStyle)")
-                }.padding(.horizontal)
+                FilterGridView(
+                    viewModel: FilterViewModel(
+                        filters: viewModel.filters)
+                )
+                                    .padding(.horizontal, horizontalPadding)
                 
                 switch viewModel.state {
                 case .loading:

@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum OpalIconSize: CGFloat {
+    case extraSmall = 12
     case small = 16
     case medium = 20
     case large = 24

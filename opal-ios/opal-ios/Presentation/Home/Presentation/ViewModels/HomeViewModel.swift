@@ -13,12 +13,16 @@ enum HomeViewState {
 final class HomeViewModel: ObservableObject {
     @Published var state: HomeViewState = .loading
     @Published var search: String = ""
+    @Published var filters: [OpalFilterEntity] = []
+    
+    var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     private let user: AuthUserEntity
     private let sessionManager: SessionManager
     
     private let getAllModelsUseCase: GetAllModelsUseCase
     private let downloadAssetDataUseCase: DownloadAssetDataUseCase
+    private let modelAssetRepository: ModelAssetRepositoryImpl
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -26,12 +30,16 @@ final class HomeViewModel: ObservableObject {
         user: AuthUserEntity,
         sessionManager: SessionManager,
         getAllModelsUseCase: GetAllModelsUseCase = GetAllModelsUseCaseImpl(repository: ModelAssetRepositoryImpl()),
-        downloadAssetDataUseCase: DownloadAssetDataUseCase = DownloadAssetDataUseCaseImpl(repository: ModelAssetRepositoryImpl())
+        downloadAssetDataUseCase: DownloadAssetDataUseCase = DownloadAssetDataUseCaseImpl(repository: ModelAssetRepositoryImpl()),
+        modelAssetRepository: ModelAssetRepositoryImpl = ModelAssetRepositoryImpl()
     ) {
         self.user = user
         self.sessionManager = sessionManager
         self.getAllModelsUseCase = getAllModelsUseCase
         self.downloadAssetDataUseCase = downloadAssetDataUseCase
+        self.modelAssetRepository = modelAssetRepository
+        
+        loadFilters()
     }
     
     func signOut() {
@@ -60,5 +68,21 @@ final class HomeViewModel: ObservableObject {
                 self.state = .success(models)
             }
             .store(in: &cancellables)
+    }
+    
+    func loadFilters() {
+        let defaultFilter = OpalFilterEntity(
+            text: "Filters",
+            style: .unselected,
+            icon: OpalIcon(iconName: context.icons.arrowDown, size: OpalIconSize.extraSmall)
+        )
+        
+        let categories = [
+            OpalFilterEntity(text: "Anatomy", style: .unselected),
+            OpalFilterEntity(text: "Space", style: .unselected),
+            OpalFilterEntity(text: "Interior Design", style: .unselected)
+        ]
+        
+        filters = [defaultFilter] + categories
     }
 }

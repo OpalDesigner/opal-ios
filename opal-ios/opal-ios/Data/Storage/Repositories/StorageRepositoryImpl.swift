@@ -10,7 +10,6 @@ import Combine
 import Amplify
 
 class ModelAssetRepositoryImpl: ModelAssetRepository {
-    
     func fetchAll() -> AnyPublisher<[ModelItemEntity], Error> {
         Future<[ModelItemEntity], Error> { promise in
             Amplify.Storage.list { event in
@@ -26,6 +25,7 @@ class ModelAssetRepositoryImpl: ModelAssetRepository {
         }
         .eraseToAnyPublisher()
     }
+    
     
     func downloadData(for key: String) -> AnyPublisher<Data, Error> {
         Future<Data, Error> { promise in
