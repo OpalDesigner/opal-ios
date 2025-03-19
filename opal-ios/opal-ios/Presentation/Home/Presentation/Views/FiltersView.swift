@@ -26,7 +26,9 @@ struct FilterGridView: View {
                 }
             }
         }
-        .sheet(isPresented: $viewModel.showModal) {
+        .sheet(isPresented: $viewModel.showModal, onDismiss: {
+            viewModel.deselectFilter(at: 0)
+        }) {
             ModalView()
                 .presentationDetents([.fraction(0.5)])
                 .presentationCornerRadius(32)

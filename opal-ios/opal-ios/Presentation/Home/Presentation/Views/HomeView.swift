@@ -2,18 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
-    @StateObject var filterViewModel = FilterViewModel(filters: [
-        OpalFilterEntity(
-            text: "Filters",
-            style: .unselected,
-            icon: OpalIcon(
-                iconName: "chevron-down",
-                size: OpalIconSize.extraSmall)
-        ),
-            OpalFilterEntity(text: "Anatomy", style: .unselected),
-            OpalFilterEntity(text: "Space", style: .unselected),
-            OpalFilterEntity(text: "Interior Design", style: .unselected)
-        ])
+    @StateObject var filterViewModel: FilterViewModel
     
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
@@ -23,6 +12,11 @@ struct HomeView: View {
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
+    
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        _filterViewModel = StateObject(wrappedValue: FilterViewModel(filters: viewModel.filters))
+    }
     
     var body: some View {
         NavigationStack {
@@ -41,8 +35,7 @@ struct HomeView: View {
                     )
                 
                 FilterGridView(
-                    viewModel: FilterViewModel(
-                        filters: viewModel.filters)
+                    viewModel: filterViewModel
                 )
                                     .padding(.horizontal, horizontalPadding)
                 

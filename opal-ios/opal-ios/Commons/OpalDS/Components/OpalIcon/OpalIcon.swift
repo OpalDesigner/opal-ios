@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct OpalIcon: View {
-    let iconName: String
-    let color: Color?
-    let size: OpalIconSize
-    let style: OpalIconStyle = .instance
+    var iconName: String
+    var color: Color?
+    var size: OpalIconSize
+    var style: OpalIconStyle = .instance
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     init(

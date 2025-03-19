@@ -45,7 +45,7 @@ struct OpalFilter: View {
                     )
                 )
                 
-                if let icon = icon {
+                if var icon = icon {
                     icon
                 }
             }
