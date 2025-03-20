@@ -96,6 +96,7 @@ final class HomeViewModel: ObservableObject {
         let categories = [
             OpalFilterEntity(text: "Anatomy", category: "anatomy", style: .unselected),
             OpalFilterEntity(text: "Space", category: "space", style: .unselected),
+            OpalFilterEntity(text: "Scans", category: "scans", style: .unselected),
             OpalFilterEntity(text: "Interior Design", category: "interior_design", style: .unselected),
             OpalFilterEntity(text: "Other", category: "other", style: .unselected)
         ]
