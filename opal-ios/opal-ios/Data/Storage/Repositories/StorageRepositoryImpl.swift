@@ -62,7 +62,7 @@ class ModelAssetRepositoryImpl: ModelAssetRepository {
                     dict[uniqueKey] = (category, nil, nil)
                 }
                 
-                if extensionName.lowercased() == "png" || extensionName.lowercased() == "jpg" {
+                if extensionName.lowercased() == "png" || extensionName.lowercased() == "jpg" || extensionName.lowercased() == "jpeg" {
                     dict[uniqueKey]?.1 = fileKey
                 } else if extensionName.lowercased() == "usdz" {
                     dict[uniqueKey]?.2 = fileKey
