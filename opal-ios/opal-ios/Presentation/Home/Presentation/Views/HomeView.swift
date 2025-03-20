@@ -2,19 +2,51 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
+    @StateObject var filterViewModel: FilterViewModel
+    
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
+    
+    let horizontalPadding = 24.0
     
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
     
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+        _filterViewModel = StateObject(wrappedValue: FilterViewModel(filters: viewModel.filters))
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 OpalText(text: "Find the best models for you", style: .headingOne)
-                    .frame(maxWidth: .infinity)
-                    .safeAreaPadding(.vertical)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, horizontalPadding)
+                
+                OpalTextField(
+                    placeholder: "Search",
+                    text: $viewModel.search,
+                    style: .tertiary,
+                    isSecure: false,
+                    trailingIcon: context.icons.search,
+                    trailingIconColor: context.colors.font.two
+                )
+                .padding(EdgeInsets(top: 0, leading: horizontalPadding, bottom: 8, trailing: horizontalPadding))
+                
+                FilterGridView(viewModel: filterViewModel)
+                    .padding(.horizontal, horizontalPadding)
+
+                    .onChange(of: filterViewModel.selectedFilterIndex) { newIndex in
+                        if let index = newIndex, index > 0 {
+                            let category = filterViewModel.filters[index].category
+                            viewModel.selectedCategory = category
+                        } else {
+                            viewModel.selectedCategory = nil
+                        }
+                        viewModel.applyFilter()
+                    }
                 
                 switch viewModel.state {
                 case .loading:

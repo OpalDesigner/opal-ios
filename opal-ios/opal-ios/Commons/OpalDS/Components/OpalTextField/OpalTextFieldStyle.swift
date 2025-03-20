@@ -10,12 +10,15 @@ import SwiftUI
 enum OpalTextFieldStyle {
     case primary
     case secondary
+    case tertiary
     
     func fontColor(for context: OpalDesignContext) -> Color {
         switch self {
         case .primary:
             return context.colors.font.one
         case .secondary:
+            return context.colors.font.two
+        case .tertiary:
             return context.colors.font.two
         }
     }
@@ -26,6 +29,8 @@ enum OpalTextFieldStyle {
             return context.colors.background.main
         case .secondary:
             return Color.clear
+        case .tertiary:
+            return context.colors.background.secondary
         }
     }
     
@@ -34,6 +39,8 @@ enum OpalTextFieldStyle {
         case .primary:
             return context.colors.background.inverse
         case .secondary:
+            return Color.clear
+        case .tertiary:
             return Color.clear
         }
     }

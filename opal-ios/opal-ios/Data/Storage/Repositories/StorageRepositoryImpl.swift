@@ -10,7 +10,6 @@ import Combine
 import Amplify
 
 class ModelAssetRepositoryImpl: ModelAssetRepository {
-    
     func fetchAll() -> AnyPublisher<[ModelItemEntity], Error> {
         Future<[ModelItemEntity], Error> { promise in
             Amplify.Storage.list { event in
@@ -27,6 +26,7 @@ class ModelAssetRepositoryImpl: ModelAssetRepository {
         .eraseToAnyPublisher()
     }
     
+    
     func downloadData(for key: String) -> AnyPublisher<Data, Error> {
         Future<Data, Error> { promise in
             Amplify.Storage.downloadData(key: key) { result in
@@ -42,29 +42,36 @@ class ModelAssetRepositoryImpl: ModelAssetRepository {
     }
     
     private func groupFilesByNameBase(_ items: [StorageListResult.Item]) -> [ModelItemEntity] {
-        var dict = [String: (String?, String?)]()
+        var dict = [String: (String?, String?, String?)]()
         
         for item in items {
             let fileKey = item.key
+            let components = fileKey.split(separator: "/").map { String($0) }
+                    
+            let category: String? = components.count > 1 ? components[0] : nil
+            let fileName = components.last ?? fileKey
             
-            if let dotIndex = fileKey.lastIndex(of: ".") {
-                let baseName = String(fileKey[..<dotIndex])
-                let extensionName = String(fileKey[fileKey.index(after: dotIndex)...])
+            
+            if let dotIndex = fileName.lastIndex(of: ".") {
+                let baseName = String(fileName[..<dotIndex])
+                let extensionName = String(fileName[fileName.index(after: dotIndex)...])
                 
-                if dict[baseName] == nil {
-                    dict[baseName] = (nil, nil)
+                let uniqueKey = "\(category ?? "other")/\(baseName)"
+                
+                if dict[uniqueKey] == nil {
+                    dict[uniqueKey] = (category, nil, nil)
                 }
                 
                 if extensionName.lowercased() == "png" || extensionName.lowercased() == "jpg" {
-                    dict[baseName]?.0 = fileKey
+                    dict[uniqueKey]?.1 = fileKey
                 } else if extensionName.lowercased() == "usdz" {
-                    dict[baseName]?.1 = fileKey
+                    dict[uniqueKey]?.2 = fileKey
                 }
             }
         }
         
         return dict.map { (key, value) in
-            ModelItemEntity(name: key, imageKey: value.0, modelKey: value.1)
+            ModelItemEntity(name: key.split(separator: "/").last.map(String.init) ?? key, category: value.0, imageKey: value.1, modelKey: value.2)
         }
     }
 }
