@@ -11,4 +11,5 @@ import Combine
 protocol ModelAssetRepository {
     func fetchAll() -> AnyPublisher<[ModelItemEntity], Error>
     func downloadData(for key: String) -> AnyPublisher<Data, Error>
+    func uploadModel(data: Data, for key: String) -> AnyPublisher<String, Error> 
 }

@@ -26,6 +26,20 @@ class ModelAssetRepositoryImpl: ModelAssetRepository {
         .eraseToAnyPublisher()
     }
     
+    func uploadModel(data: Data, for key: String) -> AnyPublisher<String, Error> {
+        Future<String, Error> { promise in
+            Amplify.Storage.uploadData(key: key, data: data) { result in
+                switch result {
+                case .success(_):
+                    promise(.success(key))
+                case .failure(let error):
+                    promise(.failure(error))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
     
     func downloadData(for key: String) -> AnyPublisher<Data, Error> {
         Future<Data, Error> { promise in

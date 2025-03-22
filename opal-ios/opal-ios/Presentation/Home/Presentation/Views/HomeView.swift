@@ -37,7 +37,6 @@ struct HomeView: View {
                 
                 FilterGridView(viewModel: filterViewModel)
                     .padding(.horizontal, horizontalPadding)
-
                     .onChange(of: filterViewModel.selectedFilterIndex) { newIndex in
                         if let index = newIndex, index > 0 {
                             let category = filterViewModel.filters[index].category
@@ -79,8 +78,11 @@ struct HomeView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
-                
                 Spacer()
+                NavigationLink(destination: AddNewModelParamsView(viewModel: ObjectCaptureViewModel(), filtersViewModel: filterViewModel)) {
+                    OpalButton(title: "Create model", style: .primary)
+                }
+                                .padding(.horizontal)
                 OpalButton(title: "Sign Out", style: .secondary, action: viewModel.signOut)
                     .padding(.horizontal)
             }
