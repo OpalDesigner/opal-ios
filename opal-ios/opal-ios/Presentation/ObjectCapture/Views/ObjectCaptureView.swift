@@ -23,7 +23,7 @@ struct ObjectCaptureCreationView: View {
     @State private var modelFolderPath: URL?
     @State private var isProgressing = false
     @State private var quickLookIsPresented = false
-    @StateObject private var viewModel = ObjectCaptureViewModel()
+    @ObservedObject var viewModel: ObjectCaptureViewModel
     
     var modelPath: URL? {
         return modelFolderPath?.appending(path: "model.usdz")
@@ -158,9 +158,14 @@ extension ObjectCaptureCreationView {
                     self.photogrammetrySession = nil
                     viewModel.addNameAndCategory()
                     do {
-                        let completeNameForBucket = "\(viewModel.modelCategory.lowercased())/\(viewModel.modelName.lowercased())"
+                        let actualModelCategory = $viewModel.modelCategory
+                        let actualModelName = $viewModel.modelName
+                        let completeNameForBucket = "\(actualModelCategory.wrappedValue.lowercased())/\(actualModelName.wrappedValue.lowercased())"
+                        print("CYNARA NAMES CATEGORY: \(actualModelCategory) | NAME: \(actualModelName) | Image: \($viewModel.selectedImageURL)")
                         let fileData = try Data(contentsOf: modelPath)
-                        viewModel.uploadModel(data: fileData, key: "other/control.usdz")
+                        let imageData = try Data(contentsOf: viewModel.selectedImageURL!)
+                        viewModel.uploadModel(data: fileData, key: "other/cup.usdz")
+                        viewModel.uploadModel(data: imageData, key: "other/cup.jpeg")
                     } catch {
                         print("Erro ao carregar o arquivo .usdz: \(error)")
                     }
