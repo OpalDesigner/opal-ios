@@ -11,6 +11,7 @@ final class ObjectCaptureViewModel: ObservableObject {
     @Published var modelName: String = ""
     @Published var modelCategory: String = "other"
     @Published var selectedImageURL: URL? = nil
+    @Published var imageFormat: String = "jpeg"
     
     private let uploadAssetDataUseCase: UploadAssetDataUseCase
     
@@ -45,8 +46,10 @@ final class ObjectCaptureViewModel: ObservableObject {
         let imageData: Data?
         switch format {
         case .png:
+            imageFormat = format.fileExtension
             imageData = image.pngData()
         case .jpeg, .jpg:
+            imageFormat = format.fileExtension
             imageData = image.jpegData(compressionQuality: 1.0)
         }
 

@@ -161,11 +161,10 @@ extension ObjectCaptureCreationView {
                         let actualModelCategory = $viewModel.modelCategory
                         let actualModelName = $viewModel.modelName
                         let completeNameForBucket = "\(actualModelCategory.wrappedValue.lowercased())/\(actualModelName.wrappedValue.lowercased())"
-                        print("CYNARA NAMES CATEGORY: \(actualModelCategory) | NAME: \(actualModelName) | Image: \($viewModel.selectedImageURL)")
                         let fileData = try Data(contentsOf: modelPath)
                         let imageData = try Data(contentsOf: viewModel.selectedImageURL!)
-                        viewModel.uploadModel(data: fileData, key: "other/cup.usdz")
-                        viewModel.uploadModel(data: imageData, key: "other/cup.jpeg")
+                        viewModel.uploadModel(data: fileData, key: "\(completeNameForBucket).usdz")
+                        viewModel.uploadModel(data: imageData, key: "\(completeNameForBucket).\(viewModel.imageFormat)")
                     } catch {
                         print("Erro ao carregar o arquivo .usdz: \(error)")
                     }
@@ -183,13 +182,14 @@ extension ObjectCaptureCreationView {
 
 struct CreateButton: View {
     let session: ObjectCaptureSession
+    var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     var body: some View {
         Button(action: {
             performAction()
         }, label: {
             Text(label)
-                .foregroundStyle(.white)
+                .foregroundStyle(context.colors.background.main)
                 .padding()
                 .background(.tint)
                 .clipShape(Capsule())

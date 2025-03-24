@@ -18,6 +18,11 @@ struct AddNewModelParamsView: View {
 
     @State private var tempImage: UIImage? = nil
     
+    var isFormValid: Bool {
+        !viewModel.modelName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        viewModel.selectedImageURL != nil
+    }
+    
     let verticalPadding = 16.0
     let cornerRadiusImage = 8.0
 
@@ -82,8 +87,13 @@ struct AddNewModelParamsView: View {
             Spacer()
 
             NavigationLink(destination: ObjectCaptureCreationView(viewModel: viewModel)) {
-                OpalButton(title: "Create model", style: .primary)
-            }
+                OpalButton(
+                    title: "Create model",
+                    style:
+                        isFormValid
+                    ? .primary
+                    : .disable)
+            }.disabled(!isFormValid)
         }
         .padding()
     }
