@@ -62,6 +62,8 @@ struct HomeView: View {
                             }
                         }
                         .padding()
+                    }.refreshable {
+                        viewModel.loadAllObjects()
                     }
                     
                 case .error(let message):
@@ -79,7 +81,7 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
                 Spacer()
-                NavigationLink(destination: AddNewModelParamsView(viewModel: ObjectCaptureViewModel(), filtersViewModel: filterViewModel)) {
+                NavigationLink(destination: AddNewModelParamsView(viewModel: ObjectCaptureViewModel(homeViewModel: viewModel), filtersViewModel: filterViewModel)) {
                     OpalButton(title: "Create model", style: .primary)
                 }
                                 .padding(.horizontal)

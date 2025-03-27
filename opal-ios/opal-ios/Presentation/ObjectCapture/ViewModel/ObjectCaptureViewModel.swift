@@ -12,22 +12,20 @@ final class ObjectCaptureViewModel: ObservableObject {
     @Published var modelCategory: String = "other"
     @Published var selectedImageURL: URL? = nil
     @Published var imageFormat: String = "jpeg"
+    @Published var homeViewModel: HomeViewModel
     
     private let uploadAssetDataUseCase: UploadAssetDataUseCase
     
     init(
-        uploadAssetDataUseCase: UploadAssetDataUseCase = UploadAssetDataUseCaseImpl(repository: ModelAssetRepositoryImpl())
+        uploadAssetDataUseCase: UploadAssetDataUseCase = UploadAssetDataUseCaseImpl(repository: ModelAssetRepositoryImpl()),
+        homeViewModel: HomeViewModel
     ) {
         self.uploadAssetDataUseCase = uploadAssetDataUseCase
-    }
-    
-    func addNameAndCategory() {
-        print("CYNARA Model Name: \(modelName) | Category: \(modelCategory)")
+        self.homeViewModel = homeViewModel
     }
     
     func uploadModel(data: Data, key: String) {
         let result = uploadAssetDataUseCase.execute(data: data, key: key)
-        print("CYNARA UPLOAD: \(result)")
     }
     
     func saveImageToDocuments(image: UIImage, format: ImageFormat = .png) {
@@ -82,5 +80,9 @@ final class ObjectCaptureViewModel: ObservableObject {
         } else {
             print("Image file not found at: \(url)")
         }
+    }
+    
+    func updateHomeModels() {
+        homeViewModel.loadAllObjects()
     }
 }

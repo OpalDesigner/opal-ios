@@ -23,7 +23,9 @@ struct ObjectCaptureCreationView: View {
     @State private var modelFolderPath: URL?
     @State private var isProgressing = false
     @State private var quickLookIsPresented = false
+    @State private var showErrorSheet = false
     @ObservedObject var viewModel: ObjectCaptureViewModel
+    @Environment(\.presentationMode) var presentationMode
     
     var modelPath: URL? {
         return modelFolderPath?.appending(path: "model.usdz")
@@ -92,12 +94,37 @@ struct ObjectCaptureCreationView: View {
             
             if let modelPath {
                 ARQuickLookView(modelFile: modelPath) {
-                    guard let directory = createNewScanDirectory()
+                    guard createNewScanDirectory() != nil
                     else { return }
                     quickLookIsPresented = false
                     // TODO: Restart ObjectCapture
+                    presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
             }
+        }
+        .sheet(isPresented: $showErrorSheet, onDismiss: {
+            showErrorSheet = false
+            presentationMode.wrappedValue.dismiss()
+        }) {
+            VStack(spacing: 20) {
+                Text("Model Creation Failed")
+                    .font(.title2)
+                    .bold()
+                    .padding(.top)
+
+                Text("An error occurred while generating the 3D model. Please try again.")
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+
+                OpalButton(title: "Try again", style: .primary, action: {
+                    showErrorSheet = false
+                    presentationMode.wrappedValue.dismiss()
+                })
+            }
+            .presentationDetents([.medium])
         }
     }
 }
@@ -156,7 +183,6 @@ extension ObjectCaptureCreationView {
                 case .processingComplete:
                     isProgressing = false
                     self.photogrammetrySession = nil
-                    viewModel.addNameAndCategory()
                     do {
                         let actualModelCategory = $viewModel.modelCategory
                         let actualModelName = $viewModel.modelName
@@ -165,10 +191,17 @@ extension ObjectCaptureCreationView {
                         let imageData = try Data(contentsOf: viewModel.selectedImageURL!)
                         viewModel.uploadModel(data: fileData, key: "\(completeNameForBucket).usdz")
                         viewModel.uploadModel(data: imageData, key: "\(completeNameForBucket).\(viewModel.imageFormat)")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            viewModel.updateHomeModels()
+                        }
+                        quickLookIsPresented = true
                     } catch {
-                        print("Erro ao carregar o arquivo .usdz: \(error)")
+                        print("Error getting the .usdz file: \(error)")
+                        isProgressing = false
+                        self.photogrammetrySession = nil
+                        showErrorSheet = true
                     }
-                    quickLookIsPresented = true
+                    
                 default:
                     break
                 }

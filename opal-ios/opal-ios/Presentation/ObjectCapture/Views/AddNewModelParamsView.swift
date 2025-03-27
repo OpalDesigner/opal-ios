@@ -85,7 +85,15 @@ struct AddNewModelParamsView: View {
             }
 
             Spacer()
-
+            
+            if !isFormValid {
+                OpalText(
+                    text: "You must provide the model name and image!",
+                    style: .description,
+                    alignment: .leading
+                ).frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
             NavigationLink(destination: ObjectCaptureCreationView(viewModel: viewModel)) {
                 OpalButton(
                     title: "Create model",
