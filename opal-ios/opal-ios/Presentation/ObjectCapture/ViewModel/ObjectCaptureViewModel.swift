@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SceneKit
+import QuickLookThumbnailing
 
 final class ObjectCaptureViewModel: ObservableObject {
     @Published var modelName: String = ""
@@ -79,6 +81,33 @@ final class ObjectCaptureViewModel: ObservableObject {
             print("Image file exists at: \(url)")
         } else {
             print("Image file not found at: \(url)")
+        }
+    }
+    
+    func generateThumbnailJPEG(
+        for usdzURL: URL,
+        size: CGSize = CGSize(width: 256, height: 256),
+        compressionQuality: CGFloat = 0.8,
+        completion: @escaping (Data?) -> Void
+    ) {
+        let scale = UIScreen.main.scale
+        let request = QLThumbnailGenerator.Request(fileAt: usdzURL, size: size, scale: scale, representationTypes: .all)
+        let generator = QLThumbnailGenerator.shared
+        
+        generator.generateRepresentations(for: request) { (thumbnail, type, error) in
+            DispatchQueue.main.async {
+                if thumbnail == nil || error != nil {
+                    print("Error while generating thumbnail \(String(describing: error))")
+                } else {
+                    DispatchQueue.main.async {
+                        if let thumbnail = thumbnail,
+                           let jpegData = thumbnail.uiImage.jpegData(compressionQuality: compressionQuality) {
+                            completion(jpegData)
+                        }
+                    }
+                }
+
+            }
         }
     }
     

@@ -99,6 +99,7 @@ struct ObjectCaptureCreationView: View {
                     quickLookIsPresented = false
                     // TODO: Restart ObjectCapture
                     presentationMode.wrappedValue.dismiss()
+                    viewModel.updateHomeModels()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         presentationMode.wrappedValue.dismiss()
                     }
@@ -188,13 +189,16 @@ extension ObjectCaptureCreationView {
                         let actualModelName = $viewModel.modelName
                         let completeNameForBucket = "\(actualModelCategory.wrappedValue.lowercased())/\(actualModelName.wrappedValue.lowercased())"
                         let fileData = try Data(contentsOf: modelPath)
-                        let imageData = try Data(contentsOf: viewModel.selectedImageURL!)
-                        viewModel.uploadModel(data: fileData, key: "\(completeNameForBucket).usdz")
-                        viewModel.uploadModel(data: imageData, key: "\(completeNameForBucket).\(viewModel.imageFormat)")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            viewModel.updateHomeModels()
-                        }
-                        quickLookIsPresented = true
+                        
+                        viewModel.generateThumbnailJPEG(for: modelPath, completion: { imageData in
+                            if let imageData = imageData {
+                                viewModel.uploadModel(data: fileData, key: "\(completeNameForBucket).usdz")
+                                viewModel.uploadModel(data: imageData, key: "\(completeNameForBucket).\(viewModel.imageFormat)")
+                                quickLookIsPresented = true
+                            } else {
+                                showErrorSheet = true
+                            }
+                        })
                     } catch {
                         print("Error getting the .usdz file: \(error)")
                         isProgressing = false
