@@ -10,6 +10,7 @@ import SwiftUI
 enum OpalButtonStyle {
     case primary
     case secondary
+    case disable
     
     func fontColor(for context: OpalDesignContext) -> Color {
         switch self {
@@ -17,6 +18,8 @@ enum OpalButtonStyle {
             return context.colors.font.oneInverse
         case .secondary:
             return context.colors.font.one
+        case .disable:
+            return context.colors.font.oneInverse
         }
     }
     
@@ -26,6 +29,8 @@ enum OpalButtonStyle {
             return context.colors.background.inverse
         case .secondary:
             return Color.clear
+        case .disable:
+            return context.colors.font.two
         }
     }
     
@@ -35,6 +40,8 @@ enum OpalButtonStyle {
             return Color.clear
         case .secondary:
             return context.colors.background.inverse
+        case .disable:
+            return Color.clear
         }
     }
 }
