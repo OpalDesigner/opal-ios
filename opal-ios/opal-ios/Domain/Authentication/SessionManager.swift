@@ -2,6 +2,7 @@ import Combine
 import Foundation
 
 enum AuthState {
+    case home
     case signUp
     case login
     case confirmCode(username: String)
@@ -9,7 +10,7 @@ enum AuthState {
 }
 
 final class SessionManager: ObservableObject {
-    @Published var authState: AuthState = .login
+    @Published var authState: AuthState = .home
 
     private let signUpUseCase: SignUpUseCase
     private let signInUseCase: SignInUseCase
@@ -31,7 +32,7 @@ final class SessionManager: ObservableObject {
             }
         } else {
             DispatchQueue.main.async {
-                self.authState = .login
+                self.authState = .home
             }
         }
     }
@@ -94,5 +95,6 @@ final class SessionManager: ObservableObject {
                 }
             }
         }
+        authState = .home
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Cynara Costa on 17/03/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 struct OpalIconStyle {
     static let instance = OpalIconStyle()
