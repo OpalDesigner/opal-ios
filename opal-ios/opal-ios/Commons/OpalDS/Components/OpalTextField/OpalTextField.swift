@@ -9,7 +9,7 @@ struct OpalTextField: View {
     let trailingIcon: String?
     let trailingIconColor: Color?
     
-    let cornerRadius = 8.0
+    let cornerRadius = 12.0
     let lineWidth = 2.0
     let boxPadding = 12.0
     let fontSize = 16.0

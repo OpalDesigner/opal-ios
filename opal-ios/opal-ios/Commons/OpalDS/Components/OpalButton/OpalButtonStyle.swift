@@ -26,7 +26,7 @@ enum OpalButtonStyle {
     func bgColor(for context: OpalDesignContext) -> Color {
         switch self {
         case .primary:
-            return context.colors.background.inverse
+            return context.colors.brand.main
         case .secondary:
             return Color.clear
         case .disable:

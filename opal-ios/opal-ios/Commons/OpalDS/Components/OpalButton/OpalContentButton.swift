@@ -11,7 +11,7 @@ struct OpalButtonContent: View {
     let title: String
     let style: OpalButtonStyle
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
-    let cornerRadius = 8.0
+    let cornerRadius = 16.0
     let lineWidth = 2.0
 
     var body: some View {

@@ -13,10 +13,14 @@ struct SplashScreenView: View {
 
     var body: some View {
         ZStack {
-            context.colors.background.main.ignoresSafeArea()
+            context.colors.background.splash.ignoresSafeArea()
 
             VStack {
-                OpalImage(imageName: context.images.logo, size: .medium)
+                OpalImage(
+                    imageName: context.images.logo,
+                    style: .onBrandSplash,
+                    size: .medium
+                )
             }
             .opacity(opacity)
             .onAppear {

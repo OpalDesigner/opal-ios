@@ -11,17 +11,19 @@ struct OpalImage: View {
     var imageName: String
     var color: Color?
     var size: OpalImageSize
-    var style: OpalImageStyle = .instance
+    var style: OpalImageStyle
     var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     init(
         imageName: String,
         color: Color? = nil,
+        style: OpalImageStyle,
         size: OpalImageSize = OpalImageSize.medium
     ) {
         self.imageName = imageName
         self.color = color
         self.size = size
+        self.style = style
     }
         
     var body: some View {
