@@ -26,6 +26,7 @@ struct ObjectCaptureCreationView: View {
     @State private var showErrorSheet = false
     @ObservedObject var viewModel: ObjectCaptureViewModel
     @Environment(\.presentationMode) var presentationMode
+    var context: OpalDesignContext { OpalDesignContextSingleton.shared.context }
     
     var modelPath: URL? {
         return modelFolderPath?.appending(path: "model.usdz")
@@ -46,7 +47,7 @@ struct ObjectCaptureCreationView: View {
                     HStack {
                         Text(session.state.label)
                             .bold()
-                            .foregroundStyle(.yellow)
+                            .foregroundStyle(context.colors.brand.main)
                             .padding(.bottom)
                     }
                     
@@ -228,7 +229,7 @@ struct CreateButton: View {
             Text(label)
                 .foregroundStyle(context.colors.background.main)
                 .padding()
-                .background(.tint)
+                .background(context.colors.brand.main)
                 .clipShape(Capsule())
         })
     }
