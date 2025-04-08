@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ModelView: View {
     let model: ModelItemEntity
+    @Environment(\.presentationMode) var presentationMode
     
     @StateObject private var viewModel = ARModelViewModel(
         downloadAssetDataUseCase: DownloadAssetDataUseCaseImpl(
@@ -23,7 +24,9 @@ struct ModelView: View {
             } else if viewModel.hasError {
                 ErrorModelView()
             } else if let fileURL = viewModel.modelFileURL {
-                SceneKitModelView(modelFileURL: fileURL)
+                ARQuickLookView(modelFile: fileURL) {
+                    presentationMode.wrappedValue.dismiss()
+                }
                     .edgesIgnoringSafeArea(.bottom)
             } else {
                 EmptyView()

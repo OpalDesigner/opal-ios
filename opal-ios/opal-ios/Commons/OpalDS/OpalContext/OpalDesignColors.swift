@@ -20,7 +20,8 @@ struct OpalDesignColors: OpalDesignTokensColors {
 }
 
 struct OpalDesignColorsBrand: OpalBrandColors {
-    let main: Color = .red
+    let main: Color = Color.brandBlue
+    let splash: Color = Color.brandSplash
 }
 
 struct OpalDesignColorsFont: OpalFontColors {
@@ -43,4 +44,5 @@ struct OpalDesignColorsBackground: OpalBackgroundColors {
     var transparency: Color = Color.transparencyBackground
     var main: Color = Color.mainBackground
     var inverse: Color = Color.inverseBackground
+    var splash: Color = Color.splashBackground
 }

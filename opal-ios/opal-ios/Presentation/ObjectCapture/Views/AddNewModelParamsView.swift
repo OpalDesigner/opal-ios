@@ -11,16 +11,9 @@ struct AddNewModelParamsView: View {
     @ObservedObject var viewModel: ObjectCaptureViewModel
     @ObservedObject var filtersViewModel: FilterViewModel
 
-    @State private var showImagePicker = false
-    @State private var showImageSourceDialog = false
-    @State private var imageFormat: ImageFormat = .jpeg
-    @State private var selectedSourceType: UIImagePickerController.SourceType = .photoLibrary
-
-    @State private var tempImage: UIImage? = nil
     
     var isFormValid: Bool {
-        !viewModel.modelName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        viewModel.selectedImageURL != nil
+        !viewModel.modelName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
     let verticalPadding = 16.0
@@ -43,52 +36,11 @@ struct AddNewModelParamsView: View {
                 style: .primary
             ).padding(.bottom, verticalPadding)
 
-            Button(action: {
-                showImageSourceDialog = true
-            }) {
-                if let url = viewModel.selectedImageURL,
-                   let data = try? Data(contentsOf: url),
-                   let image = UIImage(data: data) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(cornerRadiusImage)
-                } else {
-                    OpalButton(title: "Add Image", style: .primary)
-                }
-            }
-            .confirmationDialog("Select Image Source", isPresented: $showImageSourceDialog) {
-                if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                    Button("Camera") {
-                        selectedSourceType = .camera
-                        showImagePicker = true
-                    }
-                }
-                Button("Photo Library") {
-                    selectedSourceType = .photoLibrary
-                    showImagePicker = true
-                }
-                Button("Cancel", role: .cancel) {}
-            }
-
-            .sheet(isPresented: $showImagePicker) {
-                ImagePicker(image: $tempImage, sourceType: selectedSourceType)
-                    .onDisappear {
-                        if let image = tempImage {
-                            viewModel.saveImageToDocuments(
-                                image: image,
-                                format: imageFormat
-                            )
-                        }
-                        viewModel.printSelectedImageStatus()
-                    }
-            }
-
             Spacer()
             
             if !isFormValid {
                 OpalText(
-                    text: "You must provide the model name and image!",
+                    text: "You must provide the model name!",
                     style: .description,
                     alignment: .leading
                 ).frame(maxWidth: .infinity, alignment: .leading)

@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum OpalTextStyle {
+    case heading
     case headingOne
     case headingTwo
     case description
@@ -16,6 +17,8 @@ enum OpalTextStyle {
     
     func font(for context: OpalDesignContext) -> Font {
         switch self {
+        case .heading:
+            return .custom(context.fonts.proximaNova.bold, size: 48)
         case .headingOne:
             return .custom(context.fonts.proximaNova.bold, size: 32)
         case .headingTwo:
@@ -31,6 +34,8 @@ enum OpalTextStyle {
     
     func color(for context: OpalDesignContext) -> Color {
         switch self {
+        case .heading:
+            return context.colors.font.one
         case .headingOne:
             return context.colors.font.one
         case .headingTwo:
